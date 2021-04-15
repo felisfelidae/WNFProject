@@ -1,0 +1,18 @@
+---
+title: "Modeling for Fire and Restoration in the Wayne National Forest"
+author: "Avery Merritt"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+fill in later
+
+\newpage
+
+# Preliminary Work
+
