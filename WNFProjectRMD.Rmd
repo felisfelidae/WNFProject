@@ -16,3 +16,16 @@ fill in later
 
 # Preliminary Work
 
+![Comparison of Dry Oak BpS and modern landscape proportions over 30 years](RMDImages/bpsvsmodern.png)
+
+![Comparison of Dry Oak BpS and modern landscape burns without fire suppression over 30 years](RMDImages/bpsvsmodernFire.png)
+
+![Comparison of fire suppression regimes on modern landscape over 30 years](RMDImages/0 .5 1 fire.png)
+
+![Fire transitions dependent upon different types of fire removal over 30 years](RMDImages/fireequilibrium.png)
+
+![Effect of replacement fire on the growth of early succession classes over 30 years](RMDImages/replacement fire.png)
+
+
+
+All graphs made in SyncroSim.
