@@ -1,7 +1,7 @@
 library(rsyncrosim)
 library(ggplot2)
 
-myLibrary <- ssimLibrary("OhioWNFFirstStrikes.ssim")
+myLibrary <- ssimLibrary("OhioWNFFirstStrikes.ssim", overwrite = F)
 
 project(myLibrary)
 
