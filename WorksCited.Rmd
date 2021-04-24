@@ -241,7 +241,22 @@ _Works Cited (for Reference)_
   + samc is a spatial modeling framework in R in which mortality is represented as a transition to an absorbing state of a Markov chain, where movements are represented by transient states
   + work was done on Puma concolor, making these results ideal for comparison to the work done in Circuitscape on Puma concolor for results of different connectivity modeling approaches
   + purpose of samc is to distinguish between movement (organisms experiencing resistance at a landscape feature because they cannot cross it) and mortality (organisms experiencing resistance at a landscape feature because it kills them) to provide more nuanced understanding of what a connectivity model actually represents
-      + the ideal for this work is that, in distinguishing sites of high mortality rather than simply impediment to movement, areas which can be addressed 
+      + the ideal for this work is that, in distinguishing sites of high mortality rather than simply impediment to movement, areas can be pulled out as high priorities for addressing with conservation, predicated on the idea that high mortality has a greater impact on a species than difficulty moving, which can be circumnavigated with time
+  + "This framework provides probabilistic accounting of both movement behavior and mortality risk of dispersers across landscapes, provides both short‐ and long‐term predictions of connectivity, it can directly incorporate population distribution and abundance into predictions of connectivity, and it can quantify demographic parameters related to successful dispersal and connectivity."
+  + Like circuit theory, samc is based in Markov chain theory; the authors distinguish samc by identifying it as a "general case", which accounts for both "time-specific movement and mortality" and describe circuit theory as a "special case with no absorbing states"
+      + "Fletcher et al." (look into this?) found that this method outperformed least-cost and circuit theory approaches when modeling the behavior of a herbivorous insect across landscapes undergoing habitat destruction
+  + samc is a "temporally and spatially explicit probabilistic framework"
+      + uses raster maps as a discretized representation of the environment
+      + treats time as a discrete variable 
+  + samc represents a landscape via a 2x2 matrix (P) made up of matrix Q, an nxn matrix where n is the number of cells in the landscape and Q represents probabilities of transition, matrix R, an nx1 vector with probabilities of transitioning to the absorbint state, a 1xn vector of all zeros, and 1, the probabilistic transiton from being dead to staying dead
+      + Q reflects landscape permeability, such that P is a biased random walk model
+  + samc requires two landscape representations in the form of either rasters or matrices; one which reflects resistance to movement and the other which reflects mortality risk
+  + samc has a distribution() function which calculates Q^t, to get the probability of an individual moving from location i to location j in t time steps
+  + There is a bunch of _really_ cool linear algebra in here that they've simply turned into R functions. It wouldn't be efficient for me to summarize it all, and it's laid out neatly and readably in this paper, but they've manipulated matrices to get things like the probability of an individual starting in i visting j a certain number of times during its lifetime
+  + Because samc isn't an iterative program, the performance drop as more sites are considered is significantly reduced; however, there is a performance drop with large raster maps, as they create large transition matrices
+      + "While the transition matrix can be stored efficiently in a sparse format, many of the metrics in Fletcher et al. (2019) perform calculations that involve large dense matrices that can become impractical for modern consumer computers at scales sometimes used by ecologists."
+      + Mitigating this, much of the matrix is redundant, pairwise data between every pair of cells in the landscape, which is excessive for most practical uses, so it seems that samc has done some things to work around this by focusing on calculating partial solutions in large matrices, with an emphasis on those areas of interest
+      + Landscapes exceeding 4M cells are suggested to be broken up into smaller landscapes, as value declines with great distance from source locations, because the landscape is probabilistic and absorbing; however, there is some loss of efficiency compared to circuit theory
   
 
 
