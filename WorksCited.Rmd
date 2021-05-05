@@ -257,6 +257,7 @@ _Works Cited (for Reference)_
       + "While the transition matrix can be stored efficiently in a sparse format, many of the metrics in Fletcher et al. (2019) perform calculations that involve large dense matrices that can become impractical for modern consumer computers at scales sometimes used by ecologists."
       + Mitigating this, much of the matrix is redundant, pairwise data between every pair of cells in the landscape, which is excessive for most practical uses, so it seems that samc has done some things to work around this by focusing on calculating partial solutions in large matrices, with an emphasis on those areas of interest
       + Landscapes exceeding 4M cells are suggested to be broken up into smaller landscapes, as value declines with great distance from source locations, because the landscape is probabilistic and absorbing; however, there is some loss of efficiency compared to circuit theory
+<<<<<<< HEAD
       
 \  
 
@@ -285,6 +286,9 @@ _Works Cited (for Reference)_
             + in key player analysis, the number of key players is specified ahead of time, and potential key players are often redundant (in social network speech, friends of friends are also friends. I'm not exactly sure what this means, but I have a mental image of it)
 
 \  
+=======
+  
+>>>>>>> 0a0423dfaaa66cb8eabbce5528ed243483dedaf9
 
 13. McRae BH, Hall SA, Beier P, Theobald DM (2012) Where to Restore Ecological Connectivity? Detecting Barriers and Quantifying Restoration Benefits. PLOS ONE 7(12): e52604. https://doi.org/10.1371/journal.pone.0052604
     + As much of connectivity research is focused on identifying and preserving areas of high connectivity, there's a dearth of research in the area of identifying barriers to connectivity and restoring them

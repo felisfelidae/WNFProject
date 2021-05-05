@@ -35,4 +35,3 @@ rSclassTest <- datasheetRaster(myScenario, sheetName, "StateClassFileName")
 plot(rStratumTest)
 plot(rSclassTest)
 
-
