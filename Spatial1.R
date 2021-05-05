@@ -7,6 +7,9 @@ sclassTif <- "C:/Users/merri/Documents/CDL Research/SyncroSim in R/OUTPUTS/sclas
 rStratum <- raster(stratumTif)
 rSclass <-raster(sclassTif)
 
+freq(rSclass)
+freq(rStratum)
+
 myLibrary <- ssimLibrary(name = "The Other ACDOW.ssim", package = "landfirevegmodels", overwrite = F)
 project(myLibrary)
 
@@ -31,3 +34,5 @@ rSclassTest <- datasheetRaster(myScenario, sheetName, "StateClassFileName")
 
 plot(rStratumTest)
 plot(rSclassTest)
+
+

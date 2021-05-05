@@ -241,10 +241,122 @@ _Works Cited (for Reference)_
   + samc is a spatial modeling framework in R in which mortality is represented as a transition to an absorbing state of a Markov chain, where movements are represented by transient states
   + work was done on Puma concolor, making these results ideal for comparison to the work done in Circuitscape on Puma concolor for results of different connectivity modeling approaches
   + purpose of samc is to distinguish between movement (organisms experiencing resistance at a landscape feature because they cannot cross it) and mortality (organisms experiencing resistance at a landscape feature because it kills them) to provide more nuanced understanding of what a connectivity model actually represents
-      + the ideal for this work is that, in distinguishing sites of high mortality rather than simply impediment to movement, areas which can be addressed 
+      + the ideal for this work is that, in distinguishing sites of high mortality rather than simply impediment to movement, areas can be pulled out as high priorities for addressing with conservation, predicated on the idea that high mortality has a greater impact on a species than difficulty moving, which can be circumnavigated with time
+  + "This framework provides probabilistic accounting of both movement behavior and mortality risk of dispersers across landscapes, provides both short‐ and long‐term predictions of connectivity, it can directly incorporate population distribution and abundance into predictions of connectivity, and it can quantify demographic parameters related to successful dispersal and connectivity."
+  + Like circuit theory, samc is based in Markov chain theory; the authors distinguish samc by identifying it as a "general case", which accounts for both "time-specific movement and mortality" and describe circuit theory as a "special case with no absorbing states"
+      + "Fletcher et al." (look into this?) found that this method outperformed least-cost and circuit theory approaches when modeling the behavior of a herbivorous insect across landscapes undergoing habitat destruction
+  + samc is a "temporally and spatially explicit probabilistic framework"
+      + uses raster maps as a discretized representation of the environment
+      + treats time as a discrete variable 
+  + samc represents a landscape via a 2x2 matrix (P) made up of matrix Q, an nxn matrix where n is the number of cells in the landscape and Q represents probabilities of transition, matrix R, an nx1 vector with probabilities of transitioning to the absorbint state, a 1xn vector of all zeros, and 1, the probabilistic transiton from being dead to staying dead
+      + Q reflects landscape permeability, such that P is a biased random walk model
+  + samc requires two landscape representations in the form of either rasters or matrices; one which reflects resistance to movement and the other which reflects mortality risk
+  + samc has a distribution() function which calculates Q^t, to get the probability of an individual moving from location i to location j in t time steps
+  + There is a bunch of _really_ cool linear algebra in here that they've simply turned into R functions. It wouldn't be efficient for me to summarize it all, and it's laid out neatly and readably in this paper, but they've manipulated matrices to get things like the probability of an individual starting in i visting j a certain number of times during its lifetime
+  + Because samc isn't an iterative program, the performance drop as more sites are considered is significantly reduced; however, there is a performance drop with large raster maps, as they create large transition matrices
+      + "While the transition matrix can be stored efficiently in a sparse format, many of the metrics in Fletcher et al. (2019) perform calculations that involve large dense matrices that can become impractical for modern consumer computers at scales sometimes used by ecologists."
+      + Mitigating this, much of the matrix is redundant, pairwise data between every pair of cells in the landscape, which is excessive for most practical uses, so it seems that samc has done some things to work around this by focusing on calculating partial solutions in large matrices, with an emphasis on those areas of interest
+      + Landscapes exceeding 4M cells are suggested to be broken up into smaller landscapes, as value declines with great distance from source locations, because the landscape is probabilistic and absorbing; however, there is some loss of efficiency compared to circuit theory
+      
+\  
+
+12. Urban, D.L., Minor, E.S., Treml, E.A. and Schick, R.S. (2009), Graph models of habitat mosaics. Ecology Letters, 12: 260-273. https://doi.org/10.1111/j.1461-0248.2008.01271.x
+    + Modeling habitat mosaics with graph theory relies upon metapopulation models. The two most common are source/sink and spreading-of risk
+        + Source/sink:
+            + Splits habitat patches into those that are sources (births outpace deaths) and sinks (deaths outpace births). Sinks are often more vulnerable to edge effects, while sources have a robust enough interior to be protected.
+            + This relies upon digraph models, as the source populations have outward weighted edges which may not be reciprocated from the sink populations.
+        + Spreading-of-risk
+            + the spreading of risk model is particularly apt to model systems with high fragmentation and common disturbance, where disturbances can be recovered by the surrounding patches
+            + This model focuses more on how the graph can be crossed, with emphasis on metrics like graph diameter and characteristic path lengths
+    + Oftentimes, modelers don't explicitly define which metapopulation model they're using, although it impacts where nodes might be placed and which patches might be emphasized.
+    + The "leading eigenvalue of the link weight matrix is the metapopulation capacity of the landscape"
+    + Instead of computing distances between nodes in terms of map distance, a metric called functional distance is used in which landscape resistance and navigability is factored in
+        + From here, least-cost paths can be calculated, although they use pairwise node metrics and are thus relatively computationally inefficient
+    + In GIS, least-cost can be caulcuated by converting cost rasters into a triangulated irregular network and then embedding the habitat rasters into the TIN. TINs are graphs, and so known graph methods can be used to calculated least-cost paths, at less computational expense
+        + Best, B., Urban, D. & Fay, J. (2008). ConnMod: connectivity modeling toolbox. Beta‐release of software available at: http://mgel.nicholas.duke.edu/tools. 
+    + As a concept, least-cost lengths are desirable, but as far as implementation goes, parameterizing the links remains something of an open question
+    + Two kinds of significant model tests:
+        + _Verification_ tests the model with the data used to build it, to make sure the model is running properly
+        + _Validation_ tests the model against a new set pf data, to confirm that the assumptions built into the model are, indeed, reasonable
+    + Optimization is, despite its applicability in many other areas which use graph theory, underutilized in habitat modeling. One way to run optimization on habitats would be to use a "least cuts" model to try and disconnect nodes from the graph, with the idea that the minimum cut analysis is also, incidentally, a maximum flow analysis.
+    + The concept of "key players", from social network theory, can be applied to habitat modeling
+        + One method identifies a set of nodes of order "k", which maximally disrupt the graph if removed. In theory, this can be used to disrupt the spread of invasive species or pathogens
+        + The other identification of these nodes can be used to find patches of habitat as the key players, which then have the highest ability to communicate across the network
+            + in key player analysis, the number of key players is specified ahead of time, and potential key players are often redundant (in social network speech, friends of friends are also friends. I'm not exactly sure what this means, but I have a mental image of it)
+
+\  
+
+13. McRae BH, Hall SA, Beier P, Theobald DM (2012) Where to Restore Ecological Connectivity? Detecting Barriers and Quantifying Restoration Benefits. PLOS ONE 7(12): e52604. https://doi.org/10.1371/journal.pone.0052604
+    + As much of connectivity research is focused on identifying and preserving areas of high connectivity, there's a dearth of research in the area of identifying barriers to connectivity and restoring them
+    + This paper introduces a GIS method combining neighborhood and distance analysis to identify both impermeable barriers and those which simply impede movement
+    
+\  
+
+14. Wade, Alisa A.; McKelvey, Kevin S.; Schwartz, Michael K. 2015. Resistance-surface-based wildlife conservation connectivity modeling: Summary of efforts in the United States and guide for practitioners. Gen. Tech. Rep. RMRS-GTR-333. Fort Collins, CO: U.S. Department of Agriculture, Forest Service, Rocky Mountain Research Station. 93 
+    + Defines connectivity as "the degree to which the landscape facilitates wildlife movement"
+    + Concerns about connectivity modeling: creation of political and opportunity costs; if a wildlife corridor is identified with geospatial data and then resources are put into its construction and maintenance, those resources will then be unavailable for other work
+    + Landscape management strategies other than (or in addition to) connectivity modeling and corridor creation:
+        + maintaining substantial natural vegitation patches for habitat
+        + buffering sensitive & important habitat areas
+    + Resistance surfaces, as opposed to spatially explicit population models (SEPMs), which are some of the most complicated methods of modeling connectivity in part because the in depth biological information needed to create them, can be created without any strong known link to the species in question
+        + while resistance is often connected to quality of habitat, the specifics of this are not clarified. Examples the paper uses include resistance in terms of food availability, ease of movement, ability to avoid predators, and other metrics which are all clumped under the general heading "resistance"
+        + because of this, the paper asserts that it's important to treat resitant surfaces as hypotheses backed by biological knowledge rather than fact
+        + resistance surfaces also have to include endpoints, which have the implication that organisms possess "goals" when it comes to their movement behaviors - while sometimes the implicit goal is to escape changing climate, this cannot reasonably be universalized. In circuit theory, this manifests in terms of organisms being pulled between poles, in LCP analysis, this manifests in the assumption that individuals have complete knowledge of the resistance environment. Both require the organisms to have intrinsic motivation to move from one location to another, distant location
+    + Because of the availability of software options, making resistance maps is easy; the authors of this paper argue that making a good one is a different issue altogether. Part of the problem in generating resistance maps are the assumptions and abstractions that get hidden inside the "black box" of software, where you feed a raster in, get a raster out, anbd remain ignorant of the things the program "knows" and how it implements that "knowledge" to construct this surface which is first and foremost an abstraction
+    + Island biogeography is the genesis of the understanding of a landscape as comprised of "patch" and "matrix", from a species perspective. This understanding has persisted despite imperfections, as almost no matrix has the impermeability of the ocean and so is not quite analogous to island biogeography theory, and is one of the bases for connectivity theory
+    + From metapopulation theory, landscape connectivity takes the concept of dispersal, and, importantly, dispersal rate, wherein patch dispersal needs to be much higher than patch extinction or the whole population will trend towards extinction
+    + The most recent connectivity modeling efforts have been geared towards identifying potential linkages: paths that bolster or create functional connectivity, created by interrogation of the landscape from the perspective of how a specific organism might use or respond to that landscape
+    + Raises concern about potential costs to connectedness in terms of facilitating movement for disease, invasive species, or uncharacteristic native organisms
+        + There are also some species which may experience increased mortality with increased movement
+        + However, neither of these is the norm and connectivity still seems, on the whole, good
+    + Because scale is so relevant to connectivity for an organism, connectivity modeling may be very sensitive to base unit size and range extent chosen for a model
+        + there is another dimension to scale, temporality, which needs to be considered in all of this
+            + for species with large ranges and high spatial needs, temporality may be small, and functional movement may need to occur near continuously for a population to persist, while a small range species which can persist in the same small patch of land may be less concerned with temporality
+            + time scales can be thought about in demographic, genetic, or climactic time, the last of which has become newly relevant as short-term climate change effects have become a serious concern in biology and ecology
+    + Report identifies six types of landscape connectivity; structual connectivity, and then five subsets of functional connectivity: daily habitat, seasonal migration, demographic, genetic, and range shift. The paper goes into these, but I'm not going to because I think they're all fairly self-explanatory
+    + There's a cool little directory of terms in here: pretty basic for anyone familiar with the subject, but it's a nice primer for anyone unfamiliar with the material
+    + Zeller and others (2012) for a detailed breakdown of creating resistance surfaces
+    + Four sub-steps to creating a resistance layer:
+        + identify scale
+        + identify ecological factors
+        + assign resistance values based on (2)
+        + validate the resultant surface
+    + Because map edges can introduce oddities into the resistance layer and create artificial barriers, the edges of the map need to well exceed the identified extent
+    + Cell size _should_ have a biological rationale and reflect the perception of the species of interest, but more often cell size is reflective of data or technological resource restrictions
+        + papers infrequently specify whether they _do_ either of these things, making it difficult to validate the work externally
+        + when varying cell size, researchers have found significant impact of cell size on analysis, and consequently chosen the finest grain their data supported (this may not be practical, for other reasons, and also doesn't give a complete overview of potential sensitivity to grain in modeling efforts)
+        + a potential address to this is to change the grain size/temporal scale depending on the variable being addressed (examples given were genetic and occurrance data)
+        + Scaling can also be important for classification, given that as grain size increases, details about patches of habitat may get lost in cells which are majority something else
+    + Resistance values are assigned either by data or expert opinion - this paper found that other researchers are leaning too heavily on expert opinion (to the exclusion of any other method for parameterizing their resistance surface)
+    + Resistance measures often create resistance surfaces as an inverse of habitat suitability, which only works for species who move slowly across terrain such that they effectively need to be able to live anywhere they move
+    + Cross-validation: models being checked on their own training data to check the suitability of the model, rather than models being checked against empirical movement data
+    + Because data will almost always be collected in some way differently than the application (spatial and temporal scaling at least, if not actual location), these empirical datasets need to be crosswalked into something which the model can be validated using, and then the crosswalk also requires validation
+        + even after the habitat model is validated, it's ?? whether that creates a valid resistance surface, but certain that an invalid habitat model doesn't, so
+    + Quasi-validation can be done by creating the model to fit existing data
+    + Problems with patch definition: patches are often defined using boundaries that make sense to humans, but as you zoom into the habitat, the differentiation isn't so clear cut; patches need to reflect the perspective of the target species
+        + Patches may also not be forever, and so robustness and whether a patch which may be identified as a node will persist on temporal scale is important to consider in modeling
+    + if nodes are represented as patch edges, this may create connectivity problems as the modeler can't identify areas within a patch (where resistance is 0, permeability is 100, etc) that might funnel creatures into and out of the patch along certain channels
+    + Because models with termini can only have creatures start and stop and predetermined locations, and because in such models they do so with equivalent volume between all pairs of nodes, they may be better conceptualized as models of "how would this happen, now that we have decided it is going to happen" and not "would this happen at all"
+    + Cost-distance models:
+        + calculate the lowest accumulative cost distance for every cell in the raster and then creates least cost paths between pairs of termini
+    + Resistant kernel models:
+        + use the cost distance model, but add a density of dispersal algorithm, where dispersal from a node decreases with increasing cost
+    + Current flow:
+        + circuit theory model; each cell is a resistor with wires webbing it to its neighboring cells. High flow areas tend to mimic LCP results, but because of Ohm's law, width disperses movement and lowers its cost
+    + Network flow:
+        + similar to current flow in its movement, but an optimization problem intended to get max dispersal and min ecological cost. Because network flow factors in the centrality of the nodes, it estimates relative importance of the paths it identifies
+    + Algorithm is overall less important than choice of termini and creation of resistance surfaces in the performance of the model
+    + "Only one paper compared current and network flow and also cost distance. Carroll and others (2012) found that some resulting linkages for wolves overlapped, while oth-ers did not (Figure 7). Three papers compared results from cost distance and current flow. Van Strien and others (2012) found that the best correlation between ecological (or Euclidean) distance and genetic distance for a species of damselfly varied depending on the ecological variables used in creating the resistance surface. They created a new approach, termed least cost transect analysis, whereby land cover variables were quan-tified along a transect centered on the path with the single shortest cost distance. Least cost transects had significantly better correlation with genetic distance when compared to least cost distance or current flow. Hagerty and others (2011) also found differences in correlation strength between ecological distance measured with least cost distances or current flow when compared to genetic distance for a tortoise; cost distance was better able to parse out barrier effects whereas current flow identified Euclidean distance as the primary control on genetic differences. Schwartz and others (2009) also found that cost distance approaches better correlated likely habitat preferences of wolverine and genetic distance  than  current  flow,  which  again  only  identified  the  importance  of  Euclidean  distance. Koen and others (2012) also found that Euclidean distance performed better than current flow ecological distance for modeling marten gene flow. These examples support  the  recommendation  of  Carroll  and  others  (2012)  that  multiple  approaches  should be compared in an uncertainty analysis, and that for genetic distance at least, the additional null model of Euclidean distance should be considered."
+    + Advantages of current flow: ability to identify pinch points
+    + Disadvantages of current flow: electrons think that a small, low resistance corridor is the same as a wider, medium resistance corridor; organisms may not agree
+    + Because long paths have an implicit cost that models like LCP and circuit flow don't factor in, it is advisable to weight distance (dependent upon scale of model) such that after a certain point, the ecological costs to taking a long route disqualify it entirely
+    + Concerns raised about management strategies that focus entirely on maintaining current functional linkages, at great resource expense, which then lead to areas that will no longer be sustainable habitat in the climate altered future; range shift connectivity is under-studied
+    + Chapter six is just guiding questions for practitioners, and the sort of thing that should probably be gone through with all members of a project at some point in its early stages
+    + Connectivity modeling fails to factor in "ephemeral" biological factors such as competition and foraging needs, as well as neglecting to factor in population dynamics, both of which draw into question the validity of such models
+    + "Nearly anyone can download a raster coverage, reclassify the pixels to create a resistance surface, identify termini, and produce a seemingly meaningful connectivity map. However, efforts that are spent articulating objectives, understanding data limitations, and considering how the focal species may view the landscape (if that is, indeed, the objective) produce far better products that are more justifiable than efforts that fail to complete these steps.
   
-
-
+    
+    
 ### Other Sources Cited:
 
 1. Landau, V.A., V.B. Shah, R. Anantharaman, and K.R. Hall. 2021. Omniscape.jl: Software to compute omnidirectional landscape connectivity. Journal of Open Source Software, 6(57), 2829.
