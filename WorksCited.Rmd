@@ -286,9 +286,7 @@ _Works Cited (for Reference)_
             + in key player analysis, the number of key players is specified ahead of time, and potential key players are often redundant (in social network speech, friends of friends are also friends. I'm not exactly sure what this means, but I have a mental image of it)
 
 \  
-=======
-  
->>>>>>> 0a0423dfaaa66cb8eabbce5528ed243483dedaf9
+
 
 13. McRae BH, Hall SA, Beier P, Theobald DM (2012) Where to Restore Ecological Connectivity? Detecting Barriers and Quantifying Restoration Benefits. PLOS ONE 7(12): e52604. https://doi.org/10.1371/journal.pone.0052604
     + As much of connectivity research is focused on identifying and preserving areas of high connectivity, there's a dearth of research in the area of identifying barriers to connectivity and restoring them
@@ -358,6 +356,27 @@ _Works Cited (for Reference)_
     + Chapter six is just guiding questions for practitioners, and the sort of thing that should probably be gone through with all members of a project at some point in its early stages
     + Connectivity modeling fails to factor in "ephemeral" biological factors such as competition and foraging needs, as well as neglecting to factor in population dynamics, both of which draw into question the validity of such models
     + "Nearly anyone can download a raster coverage, reclassify the pixels to create a resistance surface, identify termini, and produce a seemingly meaningful connectivity map. However, efforts that are spent articulating objectives, understanding data limitations, and considering how the focal species may view the landscape (if that is, indeed, the objective) produce far better products that are more justifiable than efforts that fail to complete these steps.
+
+\  
+
+15. Zeller, Katherine & McGarigal, Kevin & Whiteley, Andrew. (2012). Estimating landscape resistance to movement: A review. Landscape Ecology. 27. 10.1007/s10980-012-9737-0. 
+    + A review of 96 papers which included the paramaterization of resistance surfaces 
+    + As above, authors found that decisions made about creation of resistance surfaces were overreliant on expert opinion and lacked ability to defend and justify the choices made. Researchers failed to differentiate between movement and resource use, and uncertainties and sensitivity of the rasters to changes in parameters were also underreported
+    + Resistance here is defined as "the willingness of an organism to cross a particular environment, the physiological cost of moving through a particular environment, the reduction in survival for the organism moving through a particular environment, or an integration of all these factors"
+    + Resistance surface modeling process: 
+        + 1: selection of at least one environmental variable which is known/believed to affect the movement of the target species, and representation of the variable with spatial data
+        + 2: field data (detection, relocation, genetic, whatever is available) that will form the basis for the resistance raster are chosen. Expert opinion is sometimes substituted when this is not available
+        + 3: An analytical approach to turning data (or opinion) into resistance raster must be developed/selected
+        + 4: The actual resistance grid is developed by applying resistance values to the grids from step 1
+    + Primary variables used to measure resistance were land use/cover, roads, elevation, hydrology, and slope
+    + proxies are often used, such as vegetation type as a proxy for amount of understory cover, but this has unclear effects on the results
+    + Most of the base spatial data also comes from satellite or aerial imagery, without necessarily undergoing any analysis for error, and certainly not in any standardized way
+    + image analysis is also apparently very hard, so most projects are using outdated imagery, without necessarily looking into whether the landscape has remained static over the time frame since the source images were published
+    + One way to try and get around such introduced error is to stick to more constant variables like slope, elevation, and water tables, or to have an error buffer
+    + at this point in time, such uncertainties and potential introduced inaccuracies are less candidates for avoidance and more should appropriately be acknowledged
+    + Expands upon ways to restructure categorical data to bring it in line with the perspective of the target species; continuous data may also be a candidate for categorical "binning", although this should be done with more caution as most species won't have a perspective that supports this sort of structure
+    + That said, transformations of categorical data are regularly applied without justification or exploration into the impact on the results in this sort of research
+    
   
     
     
