@@ -257,7 +257,6 @@ _Works Cited (for Reference)_
       + "While the transition matrix can be stored efficiently in a sparse format, many of the metrics in Fletcher et al. (2019) perform calculations that involve large dense matrices that can become impractical for modern consumer computers at scales sometimes used by ecologists."
       + Mitigating this, much of the matrix is redundant, pairwise data between every pair of cells in the landscape, which is excessive for most practical uses, so it seems that samc has done some things to work around this by focusing on calculating partial solutions in large matrices, with an emphasis on those areas of interest
       + Landscapes exceeding 4M cells are suggested to be broken up into smaller landscapes, as value declines with great distance from source locations, because the landscape is probabilistic and absorbing; however, there is some loss of efficiency compared to circuit theory
-<<<<<<< HEAD
       
 \  
 
@@ -377,7 +376,25 @@ _Works Cited (for Reference)_
     + Expands upon ways to restructure categorical data to bring it in line with the perspective of the target species; continuous data may also be a candidate for categorical "binning", although this should be done with more caution as most species won't have a perspective that supports this sort of structure
     + That said, transformations of categorical data are regularly applied without justification or exploration into the impact on the results in this sort of research
     
-  
+\  
+
+16. Gregory J. Nowacki, Marc D. Abrams, The Demise of Fire and “Mesophication” of Forests in the Eastern United States, BioScience, Volume 58, Issue 2, February 2008, Pages 123–138, https://doi.org/10.1641/B580207
+    + Before European colonization of the eastern United States, fire was an integral part of the landscape maintance. Though the environment did not constrain the development of plant and animal communities to those with tolerance to fire, these communities nonetheless developed and evolved around a regime of indigenous fire starts such that whole ecosystems have come to depends on maintenance by fire
+    + The initial consequences of colonial activity were such that fires increased, in return interval/severity, both due to intentional burning and accidental starts by coal burning stoves and such
+    + Because of the huge fires that resulted from this, and the regular cutting and burning, many stands converted to aspenbirch or oak; in places where colonists learned indigenous burning practices, the oak communities remainined somewhat unchanged
+    + Grasslands, however, saw a significant decrease in fire, as their flammability made fires too dangerous to be tolerated by colonists, and land converted to agricultural purposes or broken by roads and trains tracks did not conduct fire as easily
+    + Grasslands also converted to closed canopy forests as the lifting of fire released shoots which had not been previously able to grow
+    + Around the 1920s, fire suppression because nationalized as a fire management regime, which began the transition from grasslands to closed-canopy woodlands to the replacement of fire-adapted trees by shade-tolerant trees
+    + Due to land use conversion and fire suppression, oak savannahs and mid-western tallgrass praries are now some of the world's rarest ecosystems: oak savannahs have been reduced to 2607 hectares total from 11-13m hectares
+    + "Mesophication" is here coined as a term to describe the cyclic process by which fire-sensitive, shade tolerant species, especially those larger ones like trees, begin to outcompete the historic species on a landscape when fire is removed, reshaping the environment towards a more mesophytic form to suit them
+    + Fire is removed, shade tolerant species grow and block out light to the understory, so new plants can't grow and the understory is now moist and cool and filled with their damp litter, all of which is inhibitory to fire starts. This improves the condition only for mesophytic species, which then grow up and continue to amplify mesophytic conditions, while making them worse for the species which had originally covered the landscape
+    + Old ecosystems used to be dominated by large, sparse trees with open canopies, while the landscape, even where the species remain the same, has shifted towards young, small (lower dbh) trees packed more densely together 
+    + The theory of alternative stable states supports the idea of mesophication, as alterative stable states posits that there are multiple eco-states which may be locally sustainable, and that a shift in landscape function can cause the change to one which will not then revert or alter to something else without a significant disturbance
+        + such state switches are difficult to recover, and even if fire is reintroduced, the changes to the landscape which no longer transmit fire will require significantly more fire input to try and restore than was originally used for maintenance
+    + xeric landscapes are still competitive against mesophication due to the poor nutrient and soil quality which is no good for mesophytic species
+    + the likelihood is that compared to the effects of European invasion, the effects of climate change thus far on the landscape are negligible, and the pre-colonial landscape is irretrievable in many cases
+    + All of this is also associated with species homogenization and loss of diversity in these landscapes
+    + it is most important to burn mesic landscapes, as they are less resistant to mesophication, and the greatest possibilities for restoration may be in oak or pine dominated communities, as praries and grasslands have undergone conversion in many cases and are unsalvageable
     
     
 ### Other Sources Cited:
