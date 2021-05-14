@@ -98,11 +98,12 @@ myLibrary <- ssimLibrary(name = "RScript.ssim", #CHANGE THIS
 project(myLibrary) #used to check that you're in the right directory. 
               #if the library has no project, you have accidentally created a new library. go back and check your wd
 
-myProject <- project(myLibrary, project = 917) #odds are you will be working from project 1, change if not
+myProject <- project(myLibrary, project = 1) #odds are you will be working from project 1, change if not
 scenario(myProject) #view your scenarios, pick the ID of the one you want or create a new scenario
 
 #makes a new scenario
-myScenario <- scenario(myProject, scenario = "New Scenario", sourceScenario = 3)
+myScenario <- scenario(myProject, scenario = "New Scenario", 
+                       sourceScenario = 3) #source from whatever BpS you've isolated in the library
 
 #add spatial models
 sheetName <- "stsim_InitialConditionsSpatial"
@@ -157,7 +158,7 @@ saveDatasheet(myScenario, sheetData, "stsim_OutputOptionsSpatial")
 resultSummary <- run(myProject, scenario = "New Scenario", #change
                      jobs = 1, #change
                      summary = TRUE)
-myRaster <- datasheetRaster(myScenario, "OutputSpatialState"#, timestep = 2030
-) #change timestep
+myRaster <- datasheetRaster(myScenario, "OutputSpatialState", timestep = 2030 #CHANGE TIMESTEP
+                            ) #if timestep is not included it retrieves all rasters
 
 writeRaster(myRaster, "./outputraster.tif", overwrite = T, format="GTiff", options=c('TFW=YES'), datatype = "INT2S")
