@@ -5,10 +5,11 @@ library(dplyr)
 library(foreign)
 library(rsyncrosim)
 
-
-#Myles Waalima's raster-creating code. 
 setwd("C:/Users/merri/Documents/CDL Research/RWork/WNFProject")
-#Make sure your working directory has the /DATA file and an empty /OUTPUTs in it or change those folders to suit
+#Make sure your working directory has the DATA folder and an empty OUTPUTs in it or change the code to suit
+#setting wd isn't strictly necessary but i like to do it as a matter of habit
+
+#RASTER CREATING CODE BY MYLES WAALIMA //
 
 # read your area of interest shapefile and reproject to LF
 shp <- st_read("./DATA/ironton.shp") %>% ## this is the line right here you need to change!!
@@ -74,7 +75,9 @@ if (file.exists("./DATA/US_200SCLASS/us_200sclass/hdr.adf") == T) {
   write.dbf(sclass_x, "./OUTPUTS/sclass_aoi_cropINT.tif.vat.dbf")
   print("SCLASS raster was cropped and exported as sclass_aoi_crop.tif in OUTPUTS folder", quote = F)
   print("SCLASS data frame was created and exported as sclass_aoi_attributes.csv in OUTPUTS folder", quote = F)
-} else { message("'./DATA/US_140SCLASS/us_140sclass/hdr.adf' does not exist in DATA folder", quote = F) }  
+} else { message("'./DATA/US_140SCLASS/us_140sclass/hdr.adf' does not exist in DATA folder", quote = F) }
+
+# END MYLES' CODE
 
 stratumTif <- "./OUTPUTS/bps_aoi_crop.tif"
 stratumTif <- normalizePath(stratumTif)
@@ -84,49 +87,53 @@ sclassTif <- normalizePath(sclassTif)
 rStratum <- raster(stratumTif)
 rSclass <-raster(sclassTif)
 
+#plot(rStratum)
+#plot(rSclass)
+#used to check rasters to make sure they're working. not necessary, but nice the first time around 
+
 setwd("./SSimModels") #CHANGE THIS depending on where you keep your syncrosim models
 
-myLibrary <- ssimLibrary(name = "TestSim.ssim", #CHANGE THIS
-                         #package = "landfirevegmodels",
+myLibrary <- ssimLibrary(name = "RScript.ssim", #CHANGE THIS
                          overwrite = F)
-project(myLibrary)
+project(myLibrary) #used to check that you're in the right directory. 
+              #if the library has no project, you have accidentally created a new library. go back and check your wd
 
-myProject = project(myLibrary, project = "Definitions")
-myProject
+myProject <- project(myLibrary, project = 917) #odds are you will be working from project 1, change if not
+scenario(myProject) #view your scenarios, pick the ID of the one you want or create a new scenario
 
-scenario(myProject)
+#makes a new scenario
+myScenario <- scenario(myProject, scenario = "New Scenario", sourceScenario = 3)
 
-#CODE TO MAKE A COPY OF A SCENARIO AND RUN THE FRESH COPY, CHANGE SCENARIO AND SOURCE
-myScenario <- scenario(myProject, scenario = "New Scenario"
-                       #, sourceScenario = "Modern Percentages - no fire"
-                       )
-
+#add spatial models
 sheetName <- "stsim_InitialConditionsSpatial"
 sheetData <- list(StratumFileName = stratumTif, 
                   StateClassFileName = sclassTif)
 saveDatasheet(myScenario, sheetData, sheetName)
 
 #sets stratum ID to whatever has the most cells; can be manually changed by manipulating maxID value
-#this is for if you're running a scenario which already exists
 rastFreq <- data.frame(freq(rStratum))
 maxID <- which.max(rastFreq$count)
 maxID <- rastFreq[maxID,]$value
-
 sheetData <- datasheet(myProject, "stsim_Stratum")
 sheetData$ID <- maxID #CAN BE MANUALLY CHANGED
 saveDatasheet(myProject, sheetData, "stsim_Stratum")
 
-sheetData<-datasheet(myScenario, "landfirevegmodels_SuccessionClassDescription")
-LFVMDesc <- data.frame(sheetData)
-sheetData<- datasheet(myProject, "stsim_StateClass")
-
-for (i in 1: nrow(LFVMDesc)){
-  for (j in 1:nrow(sheetData)) {
-    if (LFVMDesc[i,]$StateClassID == sheetData[j,]$Name){
-      sheetData[j,]$ID = i
-    }
-  }
-}
+#this section of code resets the ID values of the states in the projects to the id values in the state class raster
+#so that the spatial realization will run
+sheetData <- datasheet(myScenario, name = "stsim_DeterministicTransition")
+projData <- datasheet(myProject, name = "stsim_StateClass")
+droplevels(sheetData)
+LFclasses <- read.csv("./State Class.csv")
+ncount = 1
+for (i in 1:nrow(LFclasses)){
+  for (j in 1:nrow(sheetData)){
+    if (LFclasses[i,] == sheetData[j,]$StateClassIDSource){
+      for (k in nrow(projData)){
+        if (projData[k,]$Name == LFclasses[i,]){
+          projData[k,]$ID == ncount
+        }
+      } 
+      ncount = ncount + 1 }}}
 
 sheetName <- "stsim_RunControl"
 sheetData <- data.frame(MaximumIteration = 1, #change this to suit your needs
@@ -147,11 +154,10 @@ sheetData <- data.frame(
 )
 saveDatasheet(myScenario, sheetData, "stsim_OutputOptionsSpatial")
 
-resultSummary <- run(myProject, scenario = c("New Spatial Run"), #change
+resultSummary <- run(myProject, scenario = "New Scenario", #change
                      jobs = 1, #change
                      summary = TRUE)
-resultID <- subset(resultSummary, parentID == scenarioId(myScenario))$scenarioId
+myRaster <- datasheetRaster(myScenario, "OutputSpatialState"#, timestep = 2030
+) #change timestep
 
-myRaster <- datasheetRaster(myProject, scenario = resultID, "OutputSpatialState"#, timestep = 2030
-                            ) #change timestep
-
+writeRaster(myRaster, "./outputraster.tif", overwrite = T, format="GTiff", options=c('TFW=YES'), datatype = "INT2S")
