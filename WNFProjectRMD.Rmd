@@ -26,25 +26,102 @@ Before the entrenchment of colonists upon American soil, the landscape that woul
 
 Modern fire suppression in the Wayne National Forest is fast and effective. Two fire departments service the forest area, and though human-generated fire starts are common, especially during spring and fall, they are prevented from taking hold, effectively reducing fire regeneration of the landscape to zero. At present, oak remains the dominant overstory species with a scattering of hickory, but stands are not regenerating, and instead are being replaced by mesophytic species like maple in a feedback loop (termed mesophication^1^) that has become characteristic of many forests in the eastern United States. Even where overstory transitions to maple are only partial or where oak stands have presisted, mid and understory invasives have caused the landscape to depart significantly from historic character. 
 
-Realistically speaking, it is an unfeasible goal to return the Wayne National Forest to its precolonial state. Historical records of landscape character are incomplete, reconstructions of landscape will never be perfect, and the state of resource extraction and human land use, both past and present, in the region, as well as the checkered ownership make the idyll of a "return" impossible. 
+Realistically speaking, it is an unfeasible goal to return the Wayne National Forest to its precolonial state. Historical records of landscape character are incomplete, reconstructions of landscape will never be perfect, and the state of resource extraction and human land use, both past and present, in the region, as well as the checkered ownership make the idyll of a "return" impossible. Rather, management objectives center around preserving pools of refuge for the characteristic oak-hickory species which still exist on the landscape (in contrast to the historic grasslands which have largely been converted into agricultural lands) without necessarily pushing for a return to the more open-canopy oak savannahs which were historically characteristic, or attempting any kind of concerted removal of the uncharacteristic native mesic species. 
+
+\newpage
+
+# Tools of the Trade
+
+The work for this project was done in Syncrosim (state-and-transition modeling software accessed through a GUI), Omniscape (connectivity software in the Julia language), and R (a programming language emphasizing statistical and graphical work, written in the RStudio IDE). 
+
+<Link to State and Transition Modeling>
+
+<Link to Connectivity Modeling>
+
+<Link to LANDFIRE BpS>
+
+\newpage
+
+# State and Transition Modeling in Syncrosim
+
+State and transition modeling is a theory predicated on the notion that a single landscape can occupy more than one state, in this case used to describe plant communities which may be characterized as distinct and independent from each other. A state, in general, will remain stable until it is pushed to transition, either through age (as in the succession models discussed in basic ecology) or through disturbance of the landscape. After a landscape transitions from one stable state to another, it will not return to the previous state without another significant disturbance or concerted restoration effort well in excess of the effort it would have taken to maintain the landscape in the first place. The characteristics of a location must be described and parsed from the description of the distinct plant communities which make up the states which occur on that landscape, such that the same community occuring on different sites isn't incorrectly described as two discrete entities.
+
+The backbone of a state and transition model is the set of communities which can occur and remain stable, at least for a time, on a particular landscape, and the relationships between them. In Syncrosim, this web is represented as a directed graph, with vertices representing states for an ecosystem, and arcs representing transitions. The arcs are weighted by the probability of transition from one state to another on any given time step, and direct the flow of the simulated landscape through each of its states. 
+
+State and transition models emerged in the 1980s as a possible guide for the management of rangelands in Australia, but have gained momentum elsewhere, particularly in the United States, as a bridge between ecology and land management. They allow for the simulation of change in a landscape under different natural stressors, management practices, and/or projected effects of climate to give a glimpse into the projected future and a method of assessing trajectory for a landscape, when viewed with the ideal outcomes in mind.
+
+![An example of a state and transition diagram in SyncroSim](RMDImages/STM_Graph.png)
+
+In SyncroSim, these models can be run either spatially or aspatially. Spatial models require an input raster of the landscape in question, with cell values assigned to different states in the model. From there, the software can calculate the total space involved and will perform direct transitions for each cell (size of which may change based on the coarseness or fineness of the  model) at specified intervals according to the transition probability. Spatial models will return maps of the transitioned landscape at each specified timestep, as well as maps for specific transitions, when asked. For an aspatial model, an initial estimate of total area and area by state class must be provided to Syncrosim, after which it simulates proportional probabilistic transitions from state to state with respect to the current relative coverage of each state class.
+
+The SyncroSim software boasts a number of packages for different types of simulations: at its core, a basic state-and-transition model simulates only relational change, and so can be used for applications as varied as finance and epidemiological spread, but only the stsim and stsimsf packages are needed for ecological modeling. SyncroSim also offers a landfirevegmodels package, using biophysical settings taken from The Nature Conservancy's LANDFIRE project, which I used for much of my work, but I ended up needing to use the LANDFIRE models in the stsim package, due to an incompatibility between the rsyncrosim package for R and the landfirevegmodels SyncroSim package.
+
+\newpage
+
+# Connectivity Modeling in Omniscape
+
+
+
+\newpage
+
+# An Explanation of Biophysical Settings
+
+The landscape rasters used in this project were produced by the LANDFIRE project, a joint effort between the U.S. Department of Agriculture Forest Service and the U.S. Department of the Interior. The stated mission of the LANDFIRE project is to "...produce consistent, comprehensive, geospatial data and databases that describe vegetation, wildland fuel, and fire regimes across the United States and insular areas."
+
+As part of this work, LANDFIRE has produced a series of Biophysical Settings: pairings of both maps and documents spanning the United States, which describe (as best it can be reconstructed) the composition and coverage of vegetation as it was before the arrival of European colonists. The larger guiding areas for this work are defined in the Ecological Systems classifications by NatureServe. 
+
+Biophysical settings, or BpS, as LANDFIRE calls them, include between three and five vegetation class states described in terms of qualitative and quantitative presence on the landscape, as well as through the transitions between them, emphasizing transitions of succession and those mediated by fire. These class states are categorized across different biophysical settings by a combination of tags: "Early", "Mid", or "Late"; "1", "2", or "3", and "all", "open", or "closed". An early succesional class made up of native grasses might be labeled "Early1:All" across a number of biophysical settings, even when the specific species involved differ. BpS have been constructed with a combination of current geospatial data, historical data, and expert input, and are available to the public at https://landfire.gov/.
+
+\newpage
+
+# LANDFIRE Description of the State Classes Involved in Modeling the Wayne
+
+All information below was taken from the BpS Documentation available through the LANDFIRE Project, which can be found at http://landfirereview.org/search.php
+
+### Allegheny-Cumberland Dry Oak Forest and Woodland (BpS 13170_48_53)
+
+##### Early1:All
+
+Class A is grasslands/savanna maintained by frequently recurring fire (1-5yrs). The dominant layer lifeform is grass/herbaceous with a sparse overstory of oak or pine. These patches would typically be less than 100ac, but may have been up to 500 acres. Native Americans used these lands for hunting, and agriculture/native plant gathering. If fire is absent, tree seedlings and sprouts will establish and move the community to the mid-seral, closed stage.
+
+##### Mid1:Cls
+
+This is an early tree regeneration (root and stump sprouts) phase; fire frequency is about 3-9yrs. Any area that does not burn frequently is probably too moist and will be populated by mixed-mesophytic tree species. Class B needs to have some surface fire to remove the more mesic (ACRU, ACSA, LITU, FAGR) seedlings and saplings from the understory and remove some of the oaks and hickories as well. Otherwise, you cannot get to the open woodland/savanna stages. In the absence of these fires, these communities will move to the late-seral closed, mixed mesophytic class (Class E).
+
+Areas that receive frequent surface fires will be populated by fire-adapted species such as oaks and hickories. 
+
+##### Mid1:Open
+
+This class is defined as the mid-seral open oak-hickory savannas and woodlands with a fire return interval of 5-15yrs. 
+
+##### Late1:Cls
+
+Class D is defined as a late seral closed canopy oak-hickory forest. Open understories of oak seedlings exist. If the late-succession open forest type persists without any type of fire, it will eventually convert to a late-succession mixed mesophytic closed forest type. This conversion is a result of species shift from dominant oaks to dominant maple, tulip tree, and beech, which do not support fire as readily.
+
+##### Late2:Cls
+
+Mixed (maple) forests develop during the absence of fire. Dense understories of shade-tolerant species develop. 
+
 
 \newpage
 
 # Preliminary Work
 
-![Comparison of Dry Oak BpS and modern landscape proportions over 30 years](RMDImages/bpsvsmodern.png)
+My first forays into SyncroSim started with non-spatial runs of a single BpS: the Allegheny-Cumberland Dry Oak Forest, eco-region 53, identified as the primary biophysical setting in the Ironton district of the Wayne National Forest. Because the forest is disjoint, I used the Ironton district as a representative sample for the entirety of the Wayne in my exploratory work. As the initial runs were done aspatially, the shape of the district didn't matter at this stage, as I set the number of cells manually.
 
-![Comparison of Dry Oak BpS and modern landscape burns without fire suppression over 30 years](RMDImages/bpsvsmodernFire.png)
+To compensate for the lack of available geospatial data from the precolonial United States, LANDFIRE biophysical models are initialized with equal proportions of each succession class. Models are then run for 1000 time steps to allow the system to equilibrate under experts' best approximation of historic disturbance and transition regimes, and those outcomes are treated as representative of the historic landscape. 
 
-![Comparison of fire suppression regimes on modern landscape over 30 years](RMDImages/0 .5 1 fire.png)
+With this in mind, my first step was to isolate the model of interest to me and run it to state class equilibrium. Due to computational limits, I ran only six Monte Carlos of this scenario, so as not to spend the time and memory it would require to run more realizations. This limitation due to processing power was an ongoing theme of my exploratory work, and only my final productions, which did not include historic landscape percentages, were run with more than six realizations. 
 
-![Fire transitions dependent upon different types of fire removal over 30 years](RMDImages/fireequilibrium.png)
+I used the proportions of state classes resultant from the historical equilibrium runs and compared them to modern Sclass percent data for the Wayne National Forest, procured from previous work by the Nature Conservancy, running both through time steps 2020-2050, simulating the progression of the landscape 30 years out into the future. To these simulations I added a version for which the total transitions attributed by fire were reduced to zero, reflecting the current fire management regime on the Wayne National Forest.
 
-![Effect of replacement fire on the growth of early succession classes over 30 years](RMDImages/replacement fire.png)
+![Near-future behavior for different parameterizations of the Allegheny-Cumberland Dry Oak Biophysical Setting](RMDImages/ACDOW_Comparison.png)
 
+<Link to BpS Descriptions Here>
 
+It was at this point I noticed a discrepancy in the behavior of the succession classes. Notice that when fire is removed, the Late2:Cls class reduces to nearly nothing, while the proportions of Late1:Cls rise to near-complete domination of the landscape. Now look back at the description according to the Allegheny-Cumberland BpS. By all accounts, it is the _mixed-maple_ stands which should dominate in the absence of fire and the oak-hickory forest which ought to become vanishingly small; this behavior would also be consistent with the original estimates of s-class coverage for the area, as mixed closed-canopy stands are predominant on the landscape
 
-/newpage
+\newpage
 
 # Sources cited
 

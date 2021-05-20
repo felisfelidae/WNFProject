@@ -8,7 +8,7 @@ output:
     df_print: paged
 ---
 
-1. Hall, K.; Anantheraman, R.; Landau, V.; Clark, M.; et al. Circuitscape in Julia: Empowering Dynamic Approaches to Connectivity Assessment. Land 2021, 10, x.
+1. Hall, K.R.; Anantharaman, R.; Landau, V.A.; Clark, M.; Dickson, B.G.; Jones, A.; Platt, J.; Edelman, A.; Shah, V.B. Circuitscape in Julia: Empowering Dynamic Approaches to Connectivity Assessment. Land 2021, 10, 301. https://doi.org/10.3390/land10030301 
     + Focuses on using Julia, a language which emphasizes parallel computing techniques to run connectivity and other landscape models more quickly, as the languages used by ecologists and the available technology to ecologists may not support the computing demands that the increasing amt of available spatial data needs to be usable in the conservation field
     + Circuitscape uses resistance grids as input; increasing dynamism 
   
@@ -232,7 +232,7 @@ _Works Cited (for Reference)_
 
 _Works Cited (for Reference)_
 
-*	Beier, P., W. Spencer, R. Baldwin, and B.H. McRae. 2011. Best science practicesfor developing regional connectivity maps. Conservation Biology 25(5): 879-892
+*	Beier, P., W. Spencer, R. Baldwin, and B.H. McRae. 2011. Best science practices for developing regional connectivity maps. Conservation Biology 25(5): 879-892
 *	Dickson B.G., G.W. Roemer, B.H. McRae, and J.M. Rundall. 2013.Models of regional habitat quality and connectivity for pumas (Pumaconcolor) in the southwestern United States. PLoS ONE 8(12): e81898.doi:10.1371/journal.pone.0081898
 
 \  
@@ -398,7 +398,7 @@ _Works Cited (for Reference)_
     
 \  
 
-17. Provencher, L.; Badik, K.;Anderson, T.; Tuhy, J.; Fletcher, D.;York, E.; Byer, S. LandscapeConservation Forecasting forData-Poor at-Risk Species on WesternPublic Lands, United States.Climate2021,9, 79.  https://doi.org/10.3390/cli9050079
+17. Provencher, L.; Badik, K.;Anderson, T.; Tuhy, J.; Fletcher, D.;York, E.; Byer, S. Landscape Conservation Forecasting for Data-Poor at-Risk Species on Western Public Lands, United States.Climate2021,9, 79.  https://doi.org/10.3390/cli9050079
     + About the difficulty of managing public lands when the lands aren't under all the same ownership or policy and are used for multiple things, especially when there are conservation goals for those lands
     + drought cycle - El Nino cycle 7 years (average 5 yr recurrence)
     + apparently species reproductive cycles move with El Nino cycles (makes sense that climate conditions would affect reproduction), and it's really uncommon to have representative data for any periods longer than that; as such, longitudinal data on species demographics is ofte unavailable.
@@ -407,6 +407,55 @@ _Works Cited (for Reference)_
     + STMs allow for modeling both ecological and single-species management, but rarely include the effects of climate change
     + A lot of responses to land management which have used LANDFIRE data have focused on vegetation departure from BpS models, which doesn't necessarily make a good proxy for habitat quality, particularly because departure is a nonspatial metric while suitability is spatial
     + Suggests using habitat suitability to drive vegetation targets instead
+    
+\  
+
+18. Beier, P., W. Spencer, R. Baldwin, and B.H. McRae. 2011. Best science practices for developing regional connectivity maps. Conservation Biology 25(5): 879-892
+    + coarse grained (regional connectivity) maps: resolution >= 100m, larger than 20,000km^2
+        + natural landscape blocks: areas which are desirable for conservation because they themselves have habitat quality or species content which is desirable
+        + connectivity areas: tracts of land which are desirable for conservation because of how they are positioned relative to natural landscape blocks
+        + coarse grained maps are not meant to be a plan in and of themselves, but to point out areas which can be zoomed in on for fine grained maps
+    + fine grained maps (linkage designs): resolution <= 30m, connect 2 or 3 landscape blocks < 100km apart
+    + as of 2011, most connectivity work had focused on linkage designs, with less attention paid to regional connectivity maps
+    + when making connectivity decisions, often there isn't a "best" decision, or there are times when multiple routes might be taken - this is when to loop in stakeholders and get their input, which tends to happen in multiple rounds and makes everyone more satisfied with the final product (usually)
+    + first state the goal of the map
+        + when setting the goal of the map, set your work in terms of conservation, even though stakeholders will have other ideas about resource extraction, as that can be worked in later after information about conservation is available, and trying to loop in other land interests too early tends to sacrifice conservation completely
+    + the ancipated map users (stakeholders) should be the people who define things like the extent of the map and the types of areas they want to connect for maximum usability
+    + ways to define areas for connectivity:
+        + experts draw polygons
+            + cheap and fast
+            + not quantitative or replicable
+        + select areas of high ecological integrity
+            + the inverse of human footprint; "an index of the de-gree to which an area retains natural land covers, haslow road density, and lacks intensive land uses and edgeeffects from adjacent human activities"
+            + the landscape is put through an algorithm, and grid clusters above a certain integrity index & area in # of grid cells become natural blocks
+            + relatively easy, replicable, quantitative
+            + hard to validate or apply field data to
+        + select protected areas
+            + simple, transparent
+            + excludes areas of habitat which are not projected
+        + use optimization algorithms to find areas which meet conservation targets
+            + maximize conservation targets while minimizing cost in area-dollars and edges
+            + generally selects the smallest area which will meet goals, which is helpful for situations in which resources must be carefully portioned and unhelpful for situations in which a broader picture of landscape connectivity is desired
+        + use existing conservation maps
+            + may miss low species diversity areas of good habitat, or areas of ecological integrity without protected species occupancy
+            + many existing conservation maps are defined within artificial boundaries (such as federally owned lands), biasing them and making them undesirable for landscape level work
+        + develop habitat maps for species
+            + species distributions are generally unavailable and too expensive to procure, so species distributions are generally modeled or sourced from expert opinion
+            + useful in that species are an easy communicator tool, and that linkage maps tend to want to facilitate species movement, which ecological integrity doesn't necessarily capture
+            + difficult in that single (or even groups of) species can't be representative of the needs and behaviors of an entire region; layering the focal maps for different species with the end goal of making habitat blocks that support all of them is PITA work
+        + use man-made barriers to further block off existing natural blocks
+    + once natural blocks are identified, determine which ones may benefit from connectivity mapping; there are a number of rules by which preliminary connections are drawn, but WHCWG also has a GIS algorithm that does it automatically
+    + if there are few connectivity linkages, or a lot of money available, do them all. In realistic scenarios, potential connectivity areas either get a line, a polygon, or a modeled polygon as a placeholder
+        + if using a modeled polygon, least cost modeling is the way to go
+    + regional connectivity maps should consider waterways as likely travel pathways
+    + connectivity maps should be accompanied by supporting documentation, descriptive statistics for the natural landscape blocks and connectivity areas, and advice about how to use the map
+    + end users should use the map as a guide to do fine-grained linkage analysis on any connectivity area which may be impacted by a desired project
+    + "New applications of least-cost modeling (Comptonet al. 2007), centrality analysis (Carroll 2010), and cir-cuit theory (M. Anderson, unpublished data) may pro-duce maps of areas important for connectivity withoutthe need to identify a priori landscape blocks. Futuredevelopment of such approaches may lead to the inte-gration of our steps 4–6 into a single step."
+    + ways to make connectivity maps that are climate-wise: temporal corridors, ecological land units/land facets, and naturalness
+    + temporal corridors uses models of projected climate change, and then applies a "dispersal chain model" or "network flow model" to identify which patches will have appropriate temperature and moisture for long enough that species could use them to establish new populations as their old habitats become unsuitable
+        + suffers from the uncertainty introduced by relying upon multiple other models, which are only projections into the future
+        + temporal corridors can be "ensemble modeled", by using many different models in different combinations to identify areas which all of them suggest may be valuable in the future, and is the only way to really use temporal corridor modeling
+    + if humans have disrupted much of the landscape, it may be useful to just block off polygons by naturalness, as those are likely to be the pathways species will take in any emigration, as all of the other land has been transformed for human use
     
     
 ### Other Sources Cited:
