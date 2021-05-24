@@ -119,7 +119,13 @@ I used the proportions of state classes resultant from the historical equilibriu
 
 <Link to BpS Descriptions Here>
 
-It was at this point I noticed a discrepancy in the behavior of the succession classes. Notice that when fire is removed, the Late2:Cls class reduces to nearly nothing, while the proportions of Late1:Cls rise to near-complete domination of the landscape. Now look back at the description according to the Allegheny-Cumberland BpS. By all accounts, it is the _mixed-maple_ stands which should dominate in the absence of fire and the oak-hickory forest which ought to become vanishingly small; this behavior would also be consistent with the original estimates of s-class coverage for the area, as mixed closed-canopy stands are predominant on the landscape
+It was at this point I noticed a discrepancy in the behavior of the succession classes. Notice that when fire is removed, the Late2:Cls class reduces to nearly nothing, while the proportions of Late1:Cls rise to near-complete domination of the landscape. Now look back at the description according to the Allegheny-Cumberland BpS. By all accounts, it is the _mixed-maple_ stands which should dominate in the absence of fire and the oak-hickory forest which ought to become vanishingly small, but this model shows the Late2:Cls class, which corresponds to fire-sensitive mixed-maple woodlands, failing to thrive without fire. 
+
+After a consultation with Randy Swaty of The Nature Conservancy, it was determined that those two states had, in fact, been transposed in the state and transition model. It is unknown at this point whether the LANDFIRE project has been informed of this discrepancy and if it has been corrected.
+
+![The Allegheny-Cumberland model with foliage percentages based on current land coverage, the transitions for Late1:Cls and Late2:Cls reversed](RMDImages/Late12_Swap.png)
+
+Above, the red and blue lines show the original model runs, while the green and purple are from after modification to represent the flipped vegetation dynamics. The less dramatic change in class proportions between the green and blue runs reflects the mitigating effect of fire, while without fire, 
 
 \newpage
 
