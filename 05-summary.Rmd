@@ -1,0 +1,53 @@
+# Spatial Modeling {#spatial}
+
+As with the nonspatial aspects of this project, the Ironton district was used as representative and an adequate landscape for proof of concept in the spatial exploration. The LANDFIRE project offers a number of geospatial products: both biophysical setting and succession class were downloaded from their website and clipped to the shape of the Ironton district using an R scrip developed by Myles Waalima, in concert with the Conservation Data Lab project. SyncroSim takes raster inputs, here in the form of TIF files. The biophysical setting raster was used as model input, while the succession class raster was input under state class.
+
+There were two primary issues that came up when I attempted spatial modeling, the first easily resolved, the second not so much.
+
+After rasters are loaded into SyncroSim for a spatial run, the software reads in the number of rows and columns and the cell size from the files, then calculates the cell size in acres, the number of cells, and the total area in acres from this information. This provides an immediate assurance that SyncroSim is able to read the data and a confirmation that the raster contains some amoutn of information, which made it especially confusing when every spatial run I attempted to run quit with a -1 error, citing "no cells", when I could from the raster calculations that there were, in fact, 1.4 million available cells to read.
+
+SyncroSim has three layers to a given model - the container layer, called the library, which controls macro aspects of the model like multiprocessing and the input of directive R scripts; the intermediate layer, called project, which controls those factors which remain constant across different scenarios of the same library; the deepest layer, scenarios (sub-scenarios also exist, but were not used for this work), hold the box and arrow diagrams, run control, spatial and non-spatial run conditions, and other multipliers affecting the probabilities and outcomes of scenario runs. Thus, in my non-spatial explorations of the biophysical setting, there had been minimal need to explore outside of the individual scenario and I had not familiarized myself with the higher level containers.
+
+In SyncroSim, for each raster model input, the corresponding raster band ID for each relevant cell value must be provided in the project layer so that SyncroSim can read the raster. The freq(<raster>) call in R returns a list of these values and their presence by number of cells in any given raster.
+
+```{r,echo = FALSE, fig.cap = 'Setting appropriate ID numbers for spatial model runs'}
+knitr::include_graphics(rep("RMDImages/def_mods.png"))
+```
+
+Once the appropriate ID numbers for the model and state classes were determined and entered into SyncroSim, spatial model runs proceded as would be expected. 
+
+```{r,echo = FALSE, fig.cap = 'Shape of the Ironton district'}
+stratumTif <- "./OUTPUTS/bps_aoi_crop.tif"
+rStratum <- raster::raster(stratumTif)
+raster::plot(rStratum)
+```
+
+```{r,echo = FALSE, fig.cap = 'Modern succession class distribution for the Ironton on time step one', fig.show='hold', out.width='50%'}
+knitr::include_graphics(c("RMDImages/legend.png","RMDImages/modern_spatial.png"))
+```
+
+Pictured above are the initial conditions for the distribution of succession classes on the Ironton, while below are the models of the landscape after 30 years.
+
+```{r,echo = FALSE, fig.cap = 'Comparison of Ironton district SClass distribution under historic burn and fire suppression management regimes', fig.show='hold', out.width='50%'}
+knitr::include_graphics(c("RMDImages/fire_spatial.png","RMDImages/no_fire_spatial.png"))
+```
+
+As expected, the historic probability of transitional fire results in the maintenance of the closed-canopy oak Sclass, while in the model where fire has been removed, there is almost a complete shift to closed-canpy mixed maple forests, with some residual oak savannah remaining in patches on the landscape, an output aligned with that of the non-spatial runs. 
+
+Noticeable in the left map of Figure 6.4, though the proportions of the S Classes have remained relatively the same as those in the first time step, above, the distribution has become scattered, and trends toward a discretized, pixel-forward image rather than a continuous map. In SyncroSim, state class transitions are probabilistic, and calculated individually for each pixel at every time step using the given transition probabilities from the model. When transitions are calculated for each cell as an individual without relationship to the overarching landscape, the resultant map ends up patchy and discontinuous.
+
+```{r,echo = FALSE, fig.cap = 'Sampled transition map from an intermediate time step', fig.show='hold', out.width='50%'}
+knitr::include_graphics(c("RMDImages/discrete_fire.png"))
+```
+
+While SyncroSim does have ways to manage transition spread and distribution to simulate a more likely model for propagtion of something like a fire, I never managed to make them work in this model. For a more realistic visualization, transitions would be spatially clustered, and human-initiated transitions such as controlled burns or harvest would not only be self-contained but localized to roads and borders, where the forest is easier to access. In the continuation of this work, solving the problem of spatial propagation is a first step toward making connectivity maps suggestive for long-range management plans.
+
+The other noticeable feature of these maps is that of their patchy occupation of the Ironton district. Aside from a few pale patches where larger roads cross-cut this chunk of forest, the base raster for the Ironton district is a continuous block of land, if with few features visible when rendered in R. By contrast, the realizations produced by SyncroSim peter out across the northeast region, with noticeable gaps across the full expanse.
+
+Unlike the scattered nature of the modeled transitions, which can be much credited to my inexperience with the software, the gaps in the map itself are endemic to the way SyncroSim works. 
+
+As noted early on in my spatial work, a critical aspect of running a spatial model in SyncroSim is setting the appropriate ID values for whatever rasters are input to build up the model. Because of how LANDFIRE data is structured, it has a basic incompatibility with SyncroSim's methods of reading spatial information.
+
+All LANDFIRE BpS models are constructed with the same building blocks in terms of cover type and structural stage. Any number of BpS models might have an s-class corresponding to an early-1 cover type of all structural stages, and in the succession class GIS data which can be downloaded from the LANDFIRE website, every instance of "Early1:ALL" or "Late2:CLS" will have the same ID value, despite representing different types of vegetation, depending on their biophysical setting. 
+
+That the state class types don't have different IDs between BpS models in the geospatial data is inconvenient, but can also be solved without much hassle by recombining rasters, which is, regardless, necessary for connectivity work. In SyncroSim, however, there is no way to differentiate an Allegheny-Cumberland Dry Oak Forest and Woodland Early1:ALL from a South-Central Interior Mesophytic Forest Early1:All, nor to create multiple instances of that combination that are then separable in the spatial outputs. While this is not a problem for non-spatial runs, if the desired outcome for a spatial run in SyncroSim is to then take a generated map and assess changes in connectivity with the altered vegetation under different management, one must either attempt to run all classes separately and mosaic them together in a third party software or allow that only one biophysical setting can be examined at a time.

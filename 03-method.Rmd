@@ -1,0 +1,31 @@
+# Biophysical Settings {#bps}
+
+The landscape rasters used in this project were produced by the LANDFIRE project, a joint effort between the U.S. Department of Agriculture Forest Service and the U.S. Department of the Interior. The stated mission of the LANDFIRE project is to "...produce consistent, comprehensive, geospatial data and databases that describe vegetation, wildland fuel, and fire regimes across the United States and insular areas."
+
+As part of this work, LANDFIRE has produced a series of Biophysical Settings: pairings of both maps and documents spanning the United States, which describe (as best it can be reconstructed) the composition and coverage of vegetation as it was before the arrival of European colonists. The larger guiding areas for this work are defined in the Ecological Systems classifications by NatureServe. 
+
+Biophysical settings, or BpS, as LANDFIRE calls them, include between three and five vegetation class states described in terms of qualitative and quantitative presence on the landscape, as well as through the transitions between them, emphasizing transitions of succession and those mediated by fire. These class states are categorized across different biophysical settings by a combination of tags: "Early", "Mid", or "Late"; "1", "2", or "3", and "all", "open", or "closed". An early succesional class made up of native grasses might be labeled "Early1:All" across a number of biophysical settings, even when the specific species involved differ. BpS have been constructed with a combination of current geospatial data, historical data, and expert input, and are available to the public at https://landfire.gov/.
+
+## Allegheny-Cumberland Dry Oak Forest and Woodland (BpS 13170_48_53) {#acdow}
+
+### Early1:All
+
+Class A is grasslands/savanna maintained by frequently recurring fire (1-5yrs). The dominant layer lifeform is grass/herbaceous with a sparse overstory of oak or pine. These patches would typically be less than 100ac, but may have been up to 500 acres. Native Americans used these lands for hunting, and agriculture/native plant gathering. If fire is absent, tree seedlings and sprouts will establish and move the community to the mid-seral, closed stage.
+
+### Mid1:Cls
+
+This is an early tree regeneration (root and stump sprouts) phase; fire frequency is about 3-9yrs. Any area that does not burn frequently is probably too moist and will be populated by mixed-mesophytic tree species. Class B needs to have some surface fire to remove the more mesic (ACRU, ACSA, LITU, FAGR) seedlings and saplings from the understory and remove some of the oaks and hickories as well. Otherwise, you cannot get to the open woodland/savanna stages. In the absence of these fires, these communities will move to the late-seral closed, mixed mesophytic class (Class E).
+
+Areas that receive frequent surface fires will be populated by fire-adapted species such as oaks and hickories. 
+
+### Mid1:Open
+
+This class is defined as the mid-seral open oak-hickory savannas and woodlands with a fire return interval of 5-15yrs. 
+
+### Late1:Cls
+
+Class D is defined as a late seral closed canopy oak-hickory forest. Open understories of oak seedlings exist. If the late-succession open forest type persists without any type of fire, it will eventually convert to a late-succession mixed mesophytic closed forest type. This conversion is a result of species shift from dominant oaks to dominant maple, tulip tree, and beech, which do not support fire as readily.
+
+### Late2:Cls
+
+Mixed (maple) forests develop during the absence of fire. Dense understories of shade-tolerant species develop. 

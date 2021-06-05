@@ -98,7 +98,7 @@ myLibrary <- ssimLibrary(name = "RScript.ssim", #CHANGE THIS
 project(myLibrary) #used to check that you're in the right directory. 
               #if the library has no project, you have accidentally created a new library. go back and check your wd
 
-myProject <- project(myLibrary, project = 1) #odds are you will be working from project 1, change if not
+myProject <- project(myLibrary, project = 917) #odds are you will be working from project 1, change if not
 scenario(myProject) #view your scenarios, pick the ID of the one you want or create a new scenario
 
 #makes a new scenario

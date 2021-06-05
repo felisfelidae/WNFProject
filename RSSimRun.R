@@ -99,7 +99,7 @@ scenario(myProject)
 #CODE TO MAKE A COPY OF A SCENARIO AND RUN THE FRESH COPY, CHANGE SCENARIO AND SOURCE
 myScenario <- scenario(myProject, scenario = "New Scenario"
                        #, sourceScenario = "Modern Percentages - no fire"
-                       )
+)
 
 sheetName <- "stsim_InitialConditionsSpatial"
 sheetData <- list(StratumFileName = stratumTif, 
@@ -153,5 +153,4 @@ resultSummary <- run(myProject, scenario = c("New Spatial Run"), #change
 resultID <- subset(resultSummary, parentID == scenarioId(myScenario))$scenarioId
 
 myRaster <- datasheetRaster(myProject, scenario = resultID, "OutputSpatialState"#, timestep = 2030
-                            ) #change timestep
-
+) #change timestep
